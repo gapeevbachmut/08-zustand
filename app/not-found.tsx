@@ -10,11 +10,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Page Not Found',
     description: 'Page does not exist',
-    url: 'https://08-zustand-green-one.vercel.app',
+    url: 'https://08-zustand-green-one.vercel.app/not-found',
+    // url: 'https://08-zustand-green-one.vercel.app',
     siteName: 'NoteHub',
     images: [
       {
-        url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+        url: 'https://pixabay.com/get/g7cb1893bef852f924cbe3517a88068c6c3baff07bc36888a4943cd36cd8b3026d8c7adb48b1313d788f57c979440fbc8c5e742cf7c2354c000fbc1d2e483f996_1280.jpg',
         width: 1200,
         height: 630,
         alt: 'NoteHub image - page not found',
