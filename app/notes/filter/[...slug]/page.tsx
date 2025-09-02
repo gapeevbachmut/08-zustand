@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
   const tag = slug[0];
 
   return {
-    title: `${tag}`,
+    title: `Notes: ${tag}`,
     description: 'tag of note',
     openGraph: {
       title: 'Notes by tag',

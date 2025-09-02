@@ -11,7 +11,6 @@ export const metadata: Metadata = {
     title: 'Page Not Found',
     description: 'Page does not exist',
     url: 'https://08-zustand-green-one.vercel.app/not-found',
-    // url: 'https://08-zustand-green-one.vercel.app',
     siteName: 'NoteHub',
     images: [
       {
