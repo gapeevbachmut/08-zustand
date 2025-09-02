@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
       siteName: 'NoteHub',
       images: [
         {
-          url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+          url: 'https://pixabay.com/get/g8b1d6e6faec9d9d4f140e421cade3f5865cc671b33c9bac7d8ae20e31137d1a6150b7bd306151e82d27f12f33bb9d12aaf401dc002ed13cfe806d8bfd7f8d0ca_1280.jpg',
 
           width: 1200,
           height: 630,
