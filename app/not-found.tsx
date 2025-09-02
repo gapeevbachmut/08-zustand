@@ -14,8 +14,7 @@ export const metadata: Metadata = {
     siteName: 'NoteHub',
     images: [
       {
-        // url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
-        url: 'https://pixabay.com/get/gc2e6cf545f31b6cf2bb9d1b572707bd52442e5875191daad8e5de17f9f12ecc982e608180c86e29cb32ff915ed8776e0a198081832f991a4cbffcade32ebcf65_1280.jpg',
+        url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
         width: 1200,
         height: 630,
         alt: 'NoteHub image - page not found',

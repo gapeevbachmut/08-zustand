@@ -16,19 +16,18 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const tag = slug[0];
 
-  //   https://pixabay.com/get/ga71f6fb05b6cde7713093b074baf2d7dd3b999d8df8d2a2c1786c7fa399d503b36280dc8064e28e1160fc6fa0450feb665e17df100ca81c885b70bac13809c44_1280.jpg
-
   return {
     title: `${tag}`,
     description: 'tag of note',
     openGraph: {
-      title: 'NoteHub',
+      title: 'Notes by tag',
       description: 'Home page of NoteHub website',
       url: `https://08-zustand-green-one.vercel.app/notes/filter/${tag}`,
       siteName: 'NoteHub',
       images: [
         {
-          url: 'https://pixabay.com/get/ga71f6fb05b6cde7713093b074baf2d7dd3b999d8df8d2a2c1786c7fa399d503b36280dc8064e28e1160fc6fa0450feb665e17df100ca81c885b70bac13809c44_1280.jpg',
+          url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+
           width: 1200,
           height: 630,
           alt: 'NoteHub image',
