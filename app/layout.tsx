@@ -16,10 +16,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'NoteHub',
+  title: 'NoteHub App',
   description: 'Home page of NoteHub website',
   openGraph: {
-    title: 'NoteHub',
+    title: 'NoteHub - Home',
     description: 'Home page of NoteHub website',
     url: 'https://08-zustand-green-one.vercel.app/',
     siteName: 'NoteHub',

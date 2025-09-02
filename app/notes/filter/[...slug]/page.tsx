@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
     description: 'tag of note',
     openGraph: {
       title: 'Notes by tag',
-      description: 'Home page of NoteHub website',
+      description: 'Page of notes by tag',
       url: `https://08-zustand-green-one.vercel.app/notes/filter/${tag}`,
       siteName: 'NoteHub',
       images: [
