@@ -16,8 +16,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Home page',
-  description: 'Home page',
+  title: 'NoteHub',
+  description: 'Home page of NoteHub website',
+  openGraph: {
+    title: 'NoteHub',
+    description: 'Home page of NoteHub website',
+    url: 'http://localhost:3001/',
+    siteName: 'NoteHub',
+    images: [
+      {
+        url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+        width: 300,
+        height: 300,
+        alt: 'NoteHub image',
+      },
+    ],
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
