@@ -20,7 +20,7 @@ export const metadata: Metadata = {
         alt: 'NoteHub image - page not found',
       },
     ],
-    type: 'website',
+    type: 'article',
   },
 };
 

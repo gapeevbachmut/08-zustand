@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props) {
           alt: 'NoteHub image',
         },
       ],
-      type: 'website',
+      type: 'article',
     },
   };
 }
