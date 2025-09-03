@@ -5,6 +5,7 @@ import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
 import { fetchNotes } from '@/lib/api';
 import { Toaster } from 'react-hot-toast';
+import Link from 'next/link';
 
 import css from './NotesPage.module.css';
 import NoteList from '@/components/NoteList/NoteList';
@@ -63,6 +64,9 @@ export default function NotesClient({ perPage, tag }: Props) {
           {/* <button className={css.button} onClick={openModal}>
             Create note +
           </button> */}
+          <Link href="/notes/action/create" className={css.button}>
+            Create note +
+          </Link>
         </header>
 
         {isSuccess && data && data.notes.length > 0 && (
