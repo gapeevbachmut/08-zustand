@@ -1,3 +1,5 @@
+'use client';
+
 import css from './NoteForm.module.css';
 import { useId } from 'react';
 import { Field, Formik, Form, type FormikHelpers, ErrorMessage } from 'formik';
@@ -6,6 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createNote } from '@/lib/api';
 import { type CreateNoteType } from '../../types/note';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const NoteSchema = Yup.object().shape({
   title: Yup.string()
@@ -18,9 +21,9 @@ const NoteSchema = Yup.object().shape({
     .required('Оберіть категорію!'),
 });
 
-interface NoteFormProps {
-  onClose: () => void;
-}
+// interface NoteFormProps {
+//   onClose: () => void;
+// }
 
 const initialFormValues: CreateNoteType = {
   title: '',
@@ -28,9 +31,11 @@ const initialFormValues: CreateNoteType = {
   tag: 'Todo',
 };
 
-export default function NoteForm({ onClose }: NoteFormProps) {
+// export default function NoteForm({ onClose }: NoteFormProps) {
+export default function NoteForm() {
   const queryClient = useQueryClient();
   const fieldId = useId();
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: createNote,
@@ -38,12 +43,14 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       toast.success('Нотатка створена!');
-      onClose();
+      // onClose();
     },
     onError: () => {
       toast.error('Не вдалося створити нотатку!');
     },
   });
+
+  const handleCancel = () => router.push('/notes/filter/all');
 
   const handleSubmit = async (
     values: CreateNoteType,
@@ -117,7 +124,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
               <button
                 type="button"
                 className={css.cancelButton}
-                onClick={onClose}
+                onClick={handleCancel}
               >
                 Cancel
               </button>
@@ -125,6 +132,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
                 type="submit"
                 className={css.submitButton}
                 disabled={mutation.isPending}
+                onClick={handleCancel}
               >
                 {props.isSubmitting ? 'Note is creating ...' : 'Create note'}
               </button>

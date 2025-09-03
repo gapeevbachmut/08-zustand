@@ -1,5 +1,6 @@
 import SidebarNotes from '@/components/SidebarNotes/SidebarNotes';
 import { getTags } from '@/lib/api';
+import Link from 'next/link';
 
 export default async function NotesSidebar() {
   const tags = await getTags(); // або статично ['Todo','Work','Personal','Meeting','Shopping']
@@ -7,6 +8,7 @@ export default async function NotesSidebar() {
   return (
     <aside>
       <SidebarNotes tags={tags} />
+      <Link href="/notes/action/create">Create note</Link>
     </aside>
   );
 }

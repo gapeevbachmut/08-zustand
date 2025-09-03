@@ -8,7 +8,7 @@ import TanStackProvider from '../components/TanStackProvider/TanStackProvider';
 const roboto = Roboto({
   variable: '--font-roboto',
   subsets: ['latin'],
-  weight: ['400'],
+  weight: ['400', '700'],
   display: 'swap',
 });
 
@@ -41,7 +41,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} `}>
+      <body className={roboto.variable}>
         <TanStackProvider>
           <Header />
           <main>
