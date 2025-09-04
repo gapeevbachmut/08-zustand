@@ -8,7 +8,6 @@ export default async function NotesSidebar() {
   return (
     <aside>
       <SidebarNotes tags={tags} />
-      {/* <Link href="/notes/action/create">Create note</Link> */}
     </aside>
   );
 }
