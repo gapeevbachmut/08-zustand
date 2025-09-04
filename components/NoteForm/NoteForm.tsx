@@ -52,9 +52,9 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       toast.success('Нотатка створена!');
-      onClose(); //  або
-      // if (onClose) onClose();
-      // else router.push('/notes/filter/all');
+      // так при створенні нотатки перекидає на - all
+      if (onClose) onClose();
+      else router.push('/notes/filter/all');
     },
     onError: () => {
       toast.error('Не вдалося створити нотатку!');
@@ -76,7 +76,10 @@ export default function NoteForm({ onClose }: NoteFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await NoteSchema.validate(formValues, { abortEarly: false });
+      // збираю усі помилки
+      // await NoteSchema.validate(formValues, { abortEarly: false });
+      await NoteSchema.validate(formValues);
+
       setErrors({});
       await mutation.mutateAsync(formValues);
       setFormValues({ title: '', content: '', tag: 'Todo' });
