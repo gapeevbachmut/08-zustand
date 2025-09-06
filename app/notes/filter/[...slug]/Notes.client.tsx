@@ -23,10 +23,6 @@ interface Props {
 export default function NotesClient({ perPage, tag }: Props) {
   const [searchQuery, setSearchQuery] = useState(''); // значення інпута
   const [currentPage, setCurrentPage] = useState(1); // pagination
-  // const [isModalOpen, setIsModalOpen] = useState(false); //модальне вікно
-
-  // const openModal = () => setIsModalOpen(true);
-  // const closeModal = () => setIsModalOpen(false);
 
   const updateSearchQuery = useDebouncedCallback((value: string) => {
     setSearchQuery(value);
@@ -61,9 +57,6 @@ export default function NotesClient({ perPage, tag }: Props) {
             />
           )}
 
-          {/* <button className={css.button} onClick={openModal}>
-            Create note +
-          </button> */}
           <Link href="/notes/action/create" className={css.button}>
             Create note +
           </Link>
@@ -76,12 +69,6 @@ export default function NotesClient({ perPage, tag }: Props) {
         {isSuccess && data && data.notes.length === 0 && (
           <p>Нотаток немає. Додайте першу!</p>
         )}
-
-        {/* {isModalOpen && (
-          <Modal onClose={closeModal}>
-            <NoteForm onClose={closeModal} />
-          </Modal>
-        )} */}
       </div>
       <Toaster />
     </>

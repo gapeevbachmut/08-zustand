@@ -9,8 +9,6 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
 
-// import { Field, Formik, Form, type FormikHelpers, ErrorMessage } from 'formik';
-
 //  валідація форми
 const NoteSchema = Yup.object().shape({
   title: Yup.string()
@@ -23,18 +21,7 @@ const NoteSchema = Yup.object().shape({
     .required('Оберіть категорію!'),
 });
 
-interface NoteFormProps {
-  onClose: () => void;
-}
-
-// const initialFormValues: CreateNoteType = {
-//   title: '',
-//   content: '',
-//   tag: 'Todo',
-// };
-
-export default function NoteForm({ onClose }: NoteFormProps) {
-  // export default function NoteForm() {
+export default function NoteForm() {
   const queryClient = useQueryClient();
   const fieldId = useId();
   const router = useRouter();
@@ -44,7 +31,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     content: '',
     tag: 'Todo',
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const mutation = useMutation({
     mutationFn: createNote,
@@ -52,9 +38,8 @@ export default function NoteForm({ onClose }: NoteFormProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['notes'] });
       toast.success('Нотатка створена!');
-      // так при створенні нотатки перекидає на - all
-      if (onClose) onClose();
-      else router.push('/notes/filter/all');
+
+      router.push('/notes/filter/all');
     },
     onError: () => {
       toast.error('Не вдалося створити нотатку!');
@@ -63,48 +48,29 @@ export default function NoteForm({ onClose }: NoteFormProps) {
 
   //  Обробка input
   const handleChange = (
-    e: React.ChangeEvent<
+    event: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = event.target;
     setFormValues(prev => ({ ...prev, [name]: value }));
   };
 
   //  Сабміт з Yup-валідацією
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
-      // збираю усі помилки
-      // await NoteSchema.validate(formValues, { abortEarly: false });
       await NoteSchema.validate(formValues);
-
-      setErrors({});
       await mutation.mutateAsync(formValues);
       setFormValues({ title: '', content: '', tag: 'Todo' });
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const newErrors: Record<string, string> = {};
-        error.inner.forEach(e => {
-          if (e.path) newErrors[e.path] = e.message;
-        });
-        setErrors(newErrors);
-      }
+    } catch {
+      toast.error('Не вдалося створити нотатку!');
     }
   };
 
-  // values: CreateNoteType,
-  //   formikHelpers: FormikHelpers<CreateNoteType>
-  // ) => {
-  //   await mutation.mutateAsync(values);
-  //   formikHelpers.resetForm(); //скидання форми
-  //   // console.log(values);
-  // };
-
   const handleCancel = () => {
-    if (onClose) onClose();
-    else router.push('/notes/filter/all');
+    router.push('/notes/filter/all');
   };
 
   return (
@@ -120,7 +86,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           placeholder="Введіть назву нотатки"
           className={css.input}
         />
-        {errors.title && <span className={css.error}>{errors.title}</span>}
       </div>
 
       <div className={css.formGroup}>
@@ -134,7 +99,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           rows={8}
           className={css.textarea}
         />
-        {errors.content && <span className={css.error}>{errors.content}</span>}
       </div>
 
       <div className={css.formGroup}>
@@ -152,7 +116,6 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           <option value="Meeting">Meeting</option>
           <option value="Shopping">Shopping</option>
         </select>
-        {errors.tag && <span className={css.error}>{errors.tag}</span>}
       </div>
 
       <div className={css.actions}>
@@ -172,85 +135,5 @@ export default function NoteForm({ onClose }: NoteFormProps) {
         </button>
       </div>
     </form>
-
-    // <Formik
-    //   initialValues={initialFormValues}
-    //   validationSchema={NoteSchema}
-    //   onSubmit={handleSubmit}
-    // >
-    //   {props => {
-    //     return (
-    //       <Form className={css.form}>
-    //         <div className={css.formGroup}>
-    //           <label htmlFor={`${fieldId}-title`}>Title</label>
-    //           <Field
-    //             id={`${fieldId}-title`}
-    //             type="text"
-    //             name="title"
-    //             placeholder="Введіть назву нотатки"
-    //             className={css.input}
-    //           />
-    //           <ErrorMessage
-    //             component="span"
-    //             name="title"
-    //             className={css.error}
-    //           />
-    //         </div>
-
-    //         <div className={css.formGroup}>
-    //           <label htmlFor={`${fieldId}-content`}>Content</label>
-    //           <Field
-    //             as="textarea"
-    //             id={`${fieldId}-content`}
-    //             placeholder="Зробіть, будь ласка опис нотатки!"
-    //             name="content"
-    //             rows={8}
-    //             className={css.textarea}
-    //           />
-    //           <ErrorMessage
-    //             component="span"
-    //             name="content"
-    //             className={css.error}
-    //           />
-    //         </div>
-
-    //         <div className={css.formGroup}>
-    //           <label htmlFor={`${fieldId}-tag`}>Tag</label>
-    //           <Field
-    //             as="select"
-    //             id={`${fieldId}-tag`}
-    //             name="tag"
-    //             className={css.select}
-    //           >
-    //             <option value="Todo">Todo</option>
-    //             <option value="Work">Work</option>
-    //             <option value="Personal">Personal</option>
-    //             <option value="Meeting">Meeting</option>
-    //             <option value="Shopping">Shopping</option>
-    //           </Field>
-    //           <ErrorMessage component="span" name="tag" className={css.error} />
-    //         </div>
-
-    //         <div className={css.actions}>
-    //           <button
-    //             type="button"
-    //             className={css.cancelButton}
-    //             onClick={handleCancel}
-    //           >
-    //             Cancel
-    //           </button>
-    //           <button
-    //             type="submit"
-    //             className={css.submitButton}
-    //             disabled={mutation.isPending}
-    //             onClick={handleCancel}
-    //           >
-    //             {props.isSubmitting ? 'Note is creating ...' : 'Create note'}
-    //           </button>
-    //         </div>
-    //       </Form>
-    //     );
-    //   }}
-    // </Formik>
   );
 }
