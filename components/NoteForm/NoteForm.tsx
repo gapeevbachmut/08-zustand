@@ -1,13 +1,13 @@
 'use client';
 
 import css from './NoteForm.module.css';
-import { useId, useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useId } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import { createNote } from '@/lib/api';
-import { type CreateNoteType } from '../../types/note';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
+import { useNoteDraftStore } from '@/lib/stores/noteStore';
 
 //  валідація форми
 const NoteSchema = Yup.object().shape({
@@ -22,23 +22,17 @@ const NoteSchema = Yup.object().shape({
 });
 
 export default function NoteForm() {
-  const queryClient = useQueryClient();
   const fieldId = useId();
   const router = useRouter();
 
-  const [formValues, setFormValues] = useState<CreateNoteType>({
-    title: '',
-    content: '',
-    tag: 'Todo',
-  });
+  const { draft, setDraft, clearDraft } = useNoteDraftStore();
 
   const mutation = useMutation({
     mutationFn: createNote,
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notes'] });
       toast.success('Нотатка створена!');
-
+      clearDraft();
       router.push('/notes/filter/all');
     },
     onError: () => {
@@ -53,7 +47,10 @@ export default function NoteForm() {
     >
   ) => {
     const { name, value } = event.target;
-    setFormValues(prev => ({ ...prev, [name]: value }));
+    setDraft({
+      ...draft,
+      [name]: value,
+    });
   };
 
   //  Сабміт з Yup-валідацією
@@ -61,9 +58,8 @@ export default function NoteForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await NoteSchema.validate(formValues);
-      await mutation.mutateAsync(formValues);
-      setFormValues({ title: '', content: '', tag: 'Todo' });
+      await NoteSchema.validate(draft);
+      await mutation.mutateAsync(draft);
     } catch {
       toast.error('Не вдалося створити нотатку!');
     }
@@ -81,7 +77,7 @@ export default function NoteForm() {
           id={`${fieldId}-title`}
           type="text"
           name="title"
-          value={formValues.title}
+          defaultValue={draft?.title}
           onChange={handleChange}
           placeholder="Введіть назву нотатки"
           className={css.input}
@@ -93,7 +89,7 @@ export default function NoteForm() {
         <textarea
           id={`${fieldId}-content`}
           name="content"
-          value={formValues.content}
+          defaultValue={draft?.content}
           onChange={handleChange}
           placeholder="Зробіть, будь ласка опис нотатки!"
           rows={8}
@@ -106,7 +102,7 @@ export default function NoteForm() {
         <select
           id={`${fieldId}-tag`}
           name="tag"
-          value={formValues.tag}
+          defaultValue={draft?.tag}
           onChange={handleChange}
           className={css.select}
         >

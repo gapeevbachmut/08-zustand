@@ -23,8 +23,6 @@ export const metadata: Metadata = {
 };
 
 const CreateNote = async () => {
-  // const tagNotes = await getTags();
-
   return (
     <>
       <main className={css.main}>
