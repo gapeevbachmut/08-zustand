@@ -6,14 +6,14 @@ import {
 import { fetchNoteById } from '@/lib/api';
 import NoteDetailsClient from './NoteDetails.client';
 import { type Note } from '@/types/note';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
 type Props = {
-  params: { id: Note['id'] };
+  params: Promise<{ id: Note['id'] }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = params;
+  const { id } = await params;
   const note = await fetchNoteById(id);
 
   return {
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: 'Single note by id',
       description: note.content.slice(0, 30),
-      url: `https://08-zustand-green-one.vercel.app/notes/filter/${id}`,
+      url: `https://08-zustand-green-one.vercel.app/notes/${id}`,
       siteName: 'NoteHub',
       images: [
         {
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const NoteDetails = async ({ params }: Props) => {
-  const { id } = params;
+  const { id } = await params;
 
   const queryClient = new QueryClient();
 

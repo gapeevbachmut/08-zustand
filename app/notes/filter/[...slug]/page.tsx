@@ -8,12 +8,12 @@ import {
 } from '@tanstack/react-query';
 import { fetchNotes } from '@/lib/api';
 import { type Note } from '@/types/note';
-import { Metadata } from 'next';
+import { type Metadata } from 'next';
 
-type Props = { params: { slug: string[] } };
+type Props = { params: Promise<{ slug: string[] }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const tag = slug[0];
 
   return {
@@ -43,7 +43,7 @@ const NotesByTag = async ({ params }: Props) => {
 
   const perPage = 12;
 
-  const { slug } = params;
+  const { slug } = await params;
   const tag = slug[0] === 'all' ? undefined : (slug[0] as Note['tag']);
 
   await queryClient.prefetchQuery({
