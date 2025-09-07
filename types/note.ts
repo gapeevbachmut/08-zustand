@@ -20,7 +20,7 @@ export interface Note {
   tag: 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
 }
 
-// для створення - свариться на id  !!!!!!!!!!!!!!!!
+// для створення
 export interface CreateNoteType {
   title: string;
   content: string;

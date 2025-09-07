@@ -18,10 +18,6 @@ const Header = async () => {
               tags={['Todo', 'Work', 'Personal', 'Meeting', 'Shopping']}
             />
           </li>
-
-          {/* <li>
-              <button onClick={handleClick}>Open menu</button>
-            </li> */}
         </ul>
       </nav>
     </header>

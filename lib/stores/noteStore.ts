@@ -10,6 +10,7 @@ type NoteDraftStore = {
   clearDraft: () => void;
 };
 
+//  початковий стан
 const initialDraft: CreateNoteType = {
   title: '',
   content: '',
