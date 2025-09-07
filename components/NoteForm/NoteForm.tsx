@@ -7,7 +7,7 @@ import { createNote } from '@/lib/api';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import * as Yup from 'yup';
-import { useNoteDraftStore } from '@/lib/stores/noteStore';
+import { useNoteDraftStore } from '@/lib/store/noteStore';
 
 //  валідація форми
 const NoteSchema = Yup.object().shape({
