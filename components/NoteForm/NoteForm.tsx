@@ -60,6 +60,9 @@ export default function NoteForm() {
     try {
       await NoteSchema.validate(draft);
       await mutation.mutateAsync(draft);
+      /////////////////////////////////
+      // mutation.mutate(draft);
+      ///////////////////////////
     } catch {
       toast.error('Не вдалося створити нотатку!');
     }
@@ -77,7 +80,7 @@ export default function NoteForm() {
           id={`${fieldId}-title`}
           type="text"
           name="title"
-          defaultValue={draft?.title}
+          value={draft?.title}
           onChange={handleChange}
           placeholder="Введіть назву нотатки"
           className={css.input}
@@ -89,7 +92,7 @@ export default function NoteForm() {
         <textarea
           id={`${fieldId}-content`}
           name="content"
-          defaultValue={draft?.content}
+          value={draft?.content}
           onChange={handleChange}
           placeholder="Зробіть, будь ласка опис нотатки!"
           rows={8}
@@ -102,7 +105,7 @@ export default function NoteForm() {
         <select
           id={`${fieldId}-tag`}
           name="tag"
-          defaultValue={draft?.tag}
+          value={draft?.tag}
           onChange={handleChange}
           className={css.select}
         >

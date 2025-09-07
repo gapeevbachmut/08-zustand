@@ -1,6 +1,5 @@
 // app/notes/filter/[...slug]/page.tsx
 
-// import { Metadata } from 'next';
 import NotesClient from './Notes.client';
 import {
   dehydrate,
@@ -9,16 +8,17 @@ import {
 } from '@tanstack/react-query';
 import { fetchNotes } from '@/lib/api';
 import { type Note } from '@/types/note';
+import { Metadata } from 'next';
 
-type Props = { params: Promise<{ slug: string[] }> };
+type Props = { params: { slug: string[] } };
 
-export async function generateMetadata({ params }: Props) {
-  const { slug } = await params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = params;
   const tag = slug[0];
 
   return {
     title: `Notes: ${tag}`,
-    description: 'tag of note',
+    description: 'Page of notes by tag',
     openGraph: {
       title: 'Notes by tag',
       description: 'Page of notes by tag',
@@ -43,7 +43,7 @@ const NotesByTag = async ({ params }: Props) => {
 
   const perPage = 12;
 
-  const { slug } = await params;
+  const { slug } = params;
   const tag = slug[0] === 'all' ? undefined : (slug[0] as Note['tag']);
 
   await queryClient.prefetchQuery({
