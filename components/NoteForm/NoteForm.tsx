@@ -2,7 +2,10 @@
 
 import css from './NoteForm.module.css';
 import { useId } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import {
+  useMutation,
+  // useQueryClient
+} from '@tanstack/react-query';
 import { createNote } from '@/lib/api';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -22,6 +25,7 @@ const NoteSchema = Yup.object().shape({
 });
 
 export default function NoteForm() {
+  // const queryClient = useQueryClient();
   const fieldId = useId();
   const router = useRouter();
 
@@ -31,6 +35,8 @@ export default function NoteForm() {
     mutationFn: createNote,
 
     onSuccess: () => {
+      // тільки якщо все на одній сторінці - у мене створюється на одній сторінці і переходить на іншу!!!
+      // queryClient.invalidateQueries({ queryKey: ['notes'] }); -
       toast.success('Нотатка створена!');
       clearDraft();
       router.push('/notes/filter/all');
